@@ -12,14 +12,28 @@ pub fn part_one(input: &str) -> Option<u32> {
     }).max()
 }
 
-pub fn part_two(_input: &str) -> Option<u32> {
-    None
+pub fn part_two(input: &str) -> Option<u32> {
+    let vec : Vec<Option<u32>> = input.lines().map(|l| -> Option<u32>{
+        match l.parse::<u32>() {
+            Ok(n) => Some(n),
+            Err(_e) => None
+        }
+    }).collect();
+    let splits : Vec<_> = vec.split(|&x| x.is_none()).collect();
+    
+    let mut summed : Vec<_> = splits.iter().map(|&v| -> u32 {
+        v.iter().map(|&n| n.unwrap()).sum()
+    }).collect();
+
+    summed.sort();
+    
+    Some(summed.iter().rev().take(3).sum())
 }
 
 fn main() {
     let input = &advent_of_code::read_file("inputs", 1);
     advent_of_code::solve!(1, part_one, input);
-    //advent_of_code::solve!(2, part_two, input);
+    advent_of_code::solve!(2, part_two, input);
 }
 
 #[cfg(test)]
