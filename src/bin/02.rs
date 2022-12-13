@@ -14,7 +14,7 @@ pub fn part_one(input: &str) -> Option<u32> {
     }).map(|v| -> i32 {
             let other = v[0];
             let me = v[1];
-            let dif = me-other;
+            let dif = me-other ;
             
             if  dif == 0 {
                 3 + me
@@ -28,8 +28,25 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 
-pub fn part_two(_input: &str) -> Option<u32> {
-    None
+pub fn part_two(input: &str) -> Option<u32> {
+    Some( input.lines().map(|l| -> Vec<i32> {
+        l.split(" ").map(|c| -> i32 {
+            match c {
+                "A" => 1,
+                "B" => 2,
+                "C" => 3,
+                "X" => -1,
+                "Y" => 0,
+                "Z" => 1,
+                &_ => todo!()
+            }
+        }).collect()
+    }).map(|v| -> i32 {
+            let other = v[0];
+            let result = v[1];
+            let me = (other + result + 2)%3 + 1;
+            me +  3  + result*3
+        }).sum::<i32>() as u32)
 }
 
 fn main() {
